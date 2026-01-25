@@ -1,0 +1,360 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+:root { /* Root je najviši nivo dokumenta */
+    /* Grupa 1: Akcentne boje - za dugmad, hover efekte i naglaske (CTA, linkovi, badge-evi) */
+    --red-600: #dc2626; /* napravi varijablu --red-600 i daj joj ovu boju */
+    --orange-600: #ea580c;
+    --red-500: #ef4444;
+    --orange-500: #f97316;
+    --yellow-500: #eab308;
+    
+    /* Grupa 2: Dodatne boje - sekcije, ikonice i statusi (success, info, warning) */
+    --purple-600: #9333ea;
+    --pink-600: #db2777;
+    --blue-600: #2563eb;
+    --cyan-600: #0891b2;
+    --green-600: #16a34a;
+    --emerald-600: #059669;
+
+    /* Grupa 3: Osnovne boje - tekst, pozadine i kontrast */
+    --black: #000000;
+    --white: #ffffff;
+
+    /* Grupa 4: ZINC skala - background, border, text i dark/light teme */
+    --zinc-50: #fafafa;
+    --zinc-100: #f4f4f5;
+    --zinc-200: #e4e4e7;
+    --zinc-300: #d4d4d8;
+    --zinc-400: #a1a1aa;
+    --zinc-500: #71717a;
+    --zinc-600: #52525b;
+    --zinc-700: #3f3f46;
+    --zinc-800: #27272a;
+    --zinc-900: #18181b;
+    --zinc-950: #09090b;
+
+    /* Grupa 5: GRAY skala - Alternativne neutralne boje - (često za kartice, sekcije, inpute). */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    
+    /* Grupa 6: Tranzicija - Globalna animacija i glatke animacije */
+    --transition: all 0.5s ease;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden; /* Sakriva horizontalni scroll */
+}
+
+.dark-mode {
+  	background-color: var(--black);
+  	color: var(--white);
+}
+
+body:not(.dark-mode) {
+	background-color: var(--white);
+  	color: var(--black);
+}
+
+.container {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.container-small {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* --------------------------- NAVBAR   ----------------------------- */
+/* ------------------------------------------------------------------ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid;
+    transition: var(--transition);
+}
+
+.dark-mode .navbar {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-bottom-color: rgba(39, 39, 42, 0.5);
+}
+
+body:not(.dark-mode) .navbar {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom-color: var(--zinc-200);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-box {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+.logo-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    filter: blur(20px);
+    opacity: 0.5;
+}
+
+.logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+}
+
+.logo-text {
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, var(--red-500), var(--orange-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.dark-mode .nav-link {
+    color: var(--white);
+}
+
+body:not(.dark-mode) .nav-link {
+    color: var(--black);
+}
+
+.nav-link:hover {
+    color: var(--red-500);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red-600), var(--orange-600));
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.theme-toggle {
+    margin-left: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .theme-toggle {
+    color: var(--white);
+}
+
+body:not(.dark-mode) .theme-toggle {
+    color: var(--black);
+}
+
+.theme-toggle:hover {
+    color: var(--red-500);
+    transform: scale(1.05);
+}
+
+.theme-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.5s ease;
+}
+
+.dark-mode .sun-icon {
+    display: none;
+}
+
+body:not(.dark-mode) .moon-icon {
+    display: none;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dark-mode .mobile-menu-toggle {
+    color: var(--white);
+}
+
+body:not(.dark-mode) .mobile-menu-toggle {
+    color: var(--black);
+}
+
+.menu-icon,
+.close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.close-icon {
+    display: none;
+}
+
+.mobile-menu-toggle.active .menu-icon {
+    display: none;
+}
+
+.mobile-menu-toggle.active .close-icon {
+    display: block;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1.5rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--red-600), var(--orange-600));
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--orange-600), var(--red-600));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-primary > * {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-outline {
+    border: 2px solid;
+    background: transparent;
+    backdrop-filter: blur(8px);
+}
+
+.dark-mode .btn-outline {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+}
+
+body:not(.dark-mode) .btn-outline {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: var(--black);
+}
+
+.btn-outline:hover {
+    border-color: rgba(239, 68, 68, 0.5);
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.2), rgba(234, 88, 12, 0.2));
+}
+
+.btn-large {
+    padding: 1rem 3rem;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+
+
+/* ------------------------------------------------------------------ */
+/* --------------------------- HEADER   ----------------------------- */
+/* ------------------------------------------------------------------ */
+
+
