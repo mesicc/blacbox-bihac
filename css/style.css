@@ -76,7 +76,7 @@ body:not(.dark-mode) {
 
 /* ------------------------------------------------------------------ */
 /* --------------------------- NAVBAR   ----------------------------- */
-/* ------------------------------------------------------------------ */
+/* -------------------------------------------Kemal Mešić------------ */
 .navbar {
     position: fixed;
     top: 0;
@@ -267,7 +267,11 @@ body:not(.dark-mode) .mobile-menu-toggle {
     display: block;
 }
 
-/* Buttons */
+
+
+/* ------------------------------------------------------------------ */
+/* --------------------------- BUTTONS ------------------------------ */
+/* -------------------------------------------Kemal Mešić------------ */
 .btn {
     padding: 0.5rem 1.5rem;
     text-decoration: none;
@@ -355,7 +359,7 @@ body:not(.dark-mode) .btn-outline {
 
 /* ------------------------------------------------------------------ */
 /* --------------------------- HEADER   ----------------------------- */
-/* ------------------------------------------------------------------ */
+/* -------------------------------------------Kemal Mešić------------ */
 .hero {
     position: relative;
     height: calc(100vh + 140px); /* bilo je height: 100vh;*/
@@ -619,3 +623,371 @@ body:not(.dark-mode) .hero-description {
     opacity: 0;
 }
 
+
+/* ------------------------------------------------------------------ */
+/* --------------------------- STATS BAR ---------------------------- */
+/* -------------------------------------------Kemal Mešić------------ */
+.stats-bar {
+    background: linear-gradient(90deg, var(--red-600), var(--orange-600), var(--red-600));
+    padding: 3rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    color: var(--white);
+}
+
+.stat-number {
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover .stat-number {
+    transform: scale(1.1);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+
+
+/* ------------------------------------------------------------------ */
+/* ------------------------ ABOUT SECTION --------------------------- */
+/* -------------------------------------------Kemal Mešić------------ */
+.about-section {
+    position: relative;
+    padding: 6rem 0;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.dark-mode .about-section {
+    background-color: var(--black);
+}
+
+body:not(.dark-mode) .about-section {
+    background-color: var(--gray-50);
+}
+
+.diagonal-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    transform: skewX(-12deg);
+    transform-origin: top right;
+    transition: var(--transition);
+}
+
+.dark-mode .diagonal-bg {
+    background-color: var(--zinc-900);
+}
+
+body:not(.dark-mode) .diagonal-bg {
+    background-color: var(--white);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.2), rgba(234, 88, 12, 0.2));
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+    color: var(--red-500);
+    transition: var(--transition);
+}
+
+.dark-mode .section-badge {
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+body:not(.dark-mode) .section-badge {
+    border: 1px solid rgba(220, 38, 38, 0.4);
+}
+
+.section-title {
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--red-500), var(--orange-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.dark-mode .about-text p {
+    color: var(--zinc-400);
+}
+
+body:not(.dark-mode) .about-text p {
+    color: var(--zinc-600);
+}
+
+.mission-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding-top: 1rem;
+}
+
+.mission-icon {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mission-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--white);
+}
+
+.mission-content h3 {
+    font-weight: 900;
+    margin-bottom: 0.25rem;
+}
+
+.dark-mode .mission-content h3 {
+    color: var(--white);
+}
+
+body:not(.dark-mode) .mission-content h3 {
+    color: var(--black);
+}
+
+.mission-content p {
+    font-size: 0.875rem;
+}
+
+.about-image {
+    position: relative;
+    height: 24rem;
+    overflow: hidden;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.2), rgba(234, 88, 12, 0.2));
+    z-index: 1;
+}
+
+.floating-card {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 1.5rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition);
+}
+
+.dark-mode .floating-card {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--zinc-800);
+}
+
+body:not(.dark-mode) .floating-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--zinc-200);
+}
+
+.floating-card-icon {
+    width: 4rem;
+    height: 4rem;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-card-icon svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--white);
+}
+
+.floating-card-number {
+    font-weight: 900;
+}
+
+.dark-mode .floating-card-number {
+    color: var(--white);
+}
+
+body:not(.dark-mode) .floating-card-number {
+    color: var(--black);
+}
+
+.floating-card-label {
+    font-size: 0.875rem;
+}
+
+.dark-mode .floating-card-label {
+    color: var(--zinc-400);
+}
+
+body:not(.dark-mode) .floating-card-label {
+    color: var(--zinc-600);
+}
+
+
+
+
+
+
+/* ------------------------------------------------------------------ */
+/* --------------------------- RESPONSIVE --------------------------- */
+/* -------------------------------------------Kemal Mešić------------ */
+@media (min-width: 640px) {
+    .hero-buttons {
+        flex-direction: row;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .programs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .about-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-image {
+        height: 31.25rem;
+    }
+
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .map-section {
+        height: 31.25rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .programs-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-menu {
+        position: fixed;
+        top: 5rem;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+        border-top: 1px solid;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .dark-mode .nav-menu {
+        background-color: rgba(0, 0, 0, 0.95);
+        border-top-color: rgba(39, 39, 42, 0.5);
+    }
+
+    body:not(.dark-mode) .nav-menu {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-top-color: var(--zinc-200);
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: left;
+    }
+
+    .theme-toggle {
+        margin-left: 0;
+        width: fit-content;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+}
