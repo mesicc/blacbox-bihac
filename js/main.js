@@ -71,7 +71,6 @@ const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
-    // Add shadow on scroll
     if (currentScroll > 10) {
         navbar.style.boxShadow = body.classList.contains('dark-mode') 
             ? '0 4px 6px -1px rgba(0, 0, 0, 0.3)' 
@@ -82,25 +81,6 @@ window.addEventListener('scroll', () => {
     
     lastScroll = currentScroll;
 });
-
-// Contact Form Submission
-const contactForm = document.getElementById('contactForm');
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Get form values
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-    
-    // Show alert (in real app, you would send this to a server)
-    alert(`Poruka je poslata! (Demo verzija)\n\nIme: ${name}\nEmail: ${email}\nPoruka: ${message}`);
-    
-    // Reset form
-    contactForm.reset();
-});
-
 
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -118,7 +98,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe sections for animation
-const sections = document.querySelectorAll('.section-header, .program-card, .contact-card, .gallery-item, .about-content, .about-image, .stat-item');
+const sections = document.querySelectorAll('.section-header, .program-card, .contact-card, .about-content, .about-image, .stat-item');
 
 sections.forEach(section => {
     section.style.opacity = '0';
@@ -164,20 +144,6 @@ programCards.forEach(card => {
         const arrow = card.querySelector('.program-arrow');
         if (arrow) {
             arrow.style.transform = 'translateX(-10px)';
-        }
-    });
-});
-
-// Gallery item click effect
-const galleryItems = document.querySelectorAll('.gallery-item');
-
-galleryItems.forEach(item => {
-    item.addEventListener('click', () => {
-        // You could open a lightbox or modal here
-        const img = item.querySelector('img');
-        if (img) {
-            console.log('Clicked image:', img.src);
-            // In a real app, you might open the image in a modal/lightbox
         }
     });
 });
@@ -307,7 +273,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Console log for demo
-console.log('BlackBox Bihać - Website Loaded Successfully! 💪');
+console.log('BlackBox Bihac - Website Loaded Successfully!');
 console.log('Theme:', body.classList.contains('dark-mode') ? 'Dark Mode' : 'Light Mode');
 
 // ================================================================
@@ -321,70 +287,64 @@ const lightboxNext = document.getElementById('lightboxNext');
 const lightboxCounter = document.getElementById('lightboxCounter');
 const galleryGrid = document.getElementById('galleryGrid');
 const galleryToggleBtn = document.getElementById('galleryToggleBtn');
+const galleryItems = document.querySelectorAll('.gallery-item');
 
 let currentImageIndex = 0;
 let galleryImages = [];
 let isGalleryExpanded = false;
 
-// Funkcija za azuriranje liste slika
-function updateGalleryImages() {
-    galleryImages = [];
-    const visibleItems = document.querySelectorAll('.gallery-item:not(.gallery-hidden), .gallery-grid.expanded .gallery-item');
-    
-    visibleItems.forEach(item => {
-        const img = item.querySelector('img');
-        if (img) {
-            galleryImages.push(img.src);
-        }
-    });
-}
-
-// Inicijalno prikupi slike
+// Inicijalno prikupi slike i postavi klik handlere
 function initGallery() {
-    const allItems = document.querySelectorAll('.gallery-item');
     galleryImages = [];
     
-    allItems.forEach((item, index) => {
+    galleryItems.forEach((item, index) => {
         const img = item.querySelector('img');
         if (img) {
             galleryImages.push(img.src);
         }
         
         // Klik na sliku otvara lightbox
-        item.addEventListener('click', () => {
-            // Ako galerija nije prosirena, koristi samo prvih 6
-            if (!isGalleryExpanded && index >= 6) return;
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
             
-            currentImageIndex = isGalleryExpanded ? index : index;
+            // Ako galerija nije prosirena i slika je skrivena, ne radi nista
+            if (!isGalleryExpanded && item.classList.contains('gallery-hidden')) return;
+            
+            currentImageIndex = index;
             openLightbox();
         });
     });
 }
 
 // Toggle gallery - prikazi/sakrij dodatne slike
-galleryToggleBtn.addEventListener('click', function() {
-    isGalleryExpanded = !isGalleryExpanded;
-    
-    if (isGalleryExpanded) {
-        galleryGrid.classList.add('expanded');
-        this.querySelector('span').textContent = 'Vidi manje';
-    } else {
-        galleryGrid.classList.remove('expanded');
-        this.querySelector('span').textContent = 'Vidi više';
+if (galleryToggleBtn) {
+    galleryToggleBtn.addEventListener('click', function() {
+        isGalleryExpanded = !isGalleryExpanded;
         
-        // Scroll do galerije ako je korisnik otisao predaleko
-        const gallerySection = document.getElementById('galerija');
-        const rect = gallerySection.getBoundingClientRect();
-        if (rect.bottom < 0) {
-            gallerySection.scrollIntoView({ behavior: 'smooth' });
+        if (isGalleryExpanded) {
+            galleryGrid.classList.add('expanded');
+            this.querySelector('span').textContent = 'Vidi manje';
+        } else {
+            galleryGrid.classList.remove('expanded');
+            this.querySelector('span').textContent = 'Vidi vise';
+            
+            // Scroll do galerije ako je korisnik otisao predaleko
+            const gallerySection = document.getElementById('galerija');
+            if (gallerySection) {
+                const rect = gallerySection.getBoundingClientRect();
+                if (rect.bottom < 0) {
+                    gallerySection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         }
-    }
-});
+    });
+}
 
 // Otvori lightbox
 function openLightbox() {
-    // Azuriraj listu slika ovisno o stanju galerije
-    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    if (!lightbox || !lightboxImage) return;
+    
+    const totalImages = isGalleryExpanded ? galleryImages.length : Math.min(6, galleryImages.length);
     
     lightboxImage.src = galleryImages[currentImageIndex];
     updateCounter(totalImages);
@@ -394,29 +354,31 @@ function openLightbox() {
 
 // Zatvori lightbox
 function closeLightbox() {
+    if (!lightbox) return;
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
 }
 
 // Prethodna slika
 function prevImage() {
-    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    const totalImages = isGalleryExpanded ? galleryImages.length : Math.min(6, galleryImages.length);
     currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
     updateLightboxImage();
 }
 
 // Sljedeca slika
 function nextImage() {
-    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    const totalImages = isGalleryExpanded ? galleryImages.length : Math.min(6, galleryImages.length);
     currentImageIndex = (currentImageIndex + 1) % totalImages;
     updateLightboxImage();
 }
 
 // Azuriraj sliku u lightboxu
 function updateLightboxImage() {
-    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    if (!lightboxImage) return;
+    const totalImages = isGalleryExpanded ? galleryImages.length : Math.min(6, galleryImages.length);
     lightboxImage.style.animation = 'none';
-    lightboxImage.offsetHeight; // Trigger reflow
+    lightboxImage.offsetHeight;
     lightboxImage.style.animation = 'lightbox-zoom 0.3s ease';
     lightboxImage.src = galleryImages[currentImageIndex];
     updateCounter(totalImages);
@@ -424,27 +386,38 @@ function updateLightboxImage() {
 
 // Azuriraj brojac
 function updateCounter(total) {
+    if (!lightboxCounter) return;
     lightboxCounter.textContent = `${currentImageIndex + 1} / ${total}`;
 }
 
 // Inicijaliziraj galeriju
 initGallery();
 
-// Event listeneri
-lightboxClose.addEventListener('click', closeLightbox);
-lightboxPrev.addEventListener('click', prevImage);
-lightboxNext.addEventListener('click', nextImage);
+// Event listeneri za lightbox kontrole
+if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+}
+
+if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', prevImage);
+}
+
+if (lightboxNext) {
+    lightboxNext.addEventListener('click', nextImage);
+}
 
 // Zatvori na klik izvan slike
-lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-        closeLightbox();
-    }
-});
+if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+}
 
 // Keyboard navigacija
 document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
+    if (!lightbox || !lightbox.classList.contains('active')) return;
     
     switch (e.key) {
         case 'Escape':
@@ -463,14 +436,16 @@ document.addEventListener('keydown', (e) => {
 let touchStartX = 0;
 let touchEndX = 0;
 
-lightbox.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
+if (lightbox) {
+    lightbox.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
 
-lightbox.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-}, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
 
 function handleSwipe() {
     const swipeThreshold = 50;
