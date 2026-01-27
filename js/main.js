@@ -308,3 +308,178 @@ document.head.appendChild(style);
 // Console log for demo
 console.log('BlackBox Bihać - Website Loaded Successfully! 💪');
 console.log('Theme:', body.classList.contains('dark-mode') ? 'Dark Mode' : 'Light Mode');
+
+// ================================================================
+// LIGHTBOX GALLERY
+// ================================================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+const lightboxCounter = document.getElementById('lightboxCounter');
+const galleryGrid = document.getElementById('galleryGrid');
+const galleryToggleBtn = document.getElementById('galleryToggleBtn');
+
+let currentImageIndex = 0;
+let galleryImages = [];
+let isGalleryExpanded = false;
+
+// Funkcija za azuriranje liste slika
+function updateGalleryImages() {
+    galleryImages = [];
+    const visibleItems = document.querySelectorAll('.gallery-item:not(.gallery-hidden), .gallery-grid.expanded .gallery-item');
+    
+    visibleItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (img) {
+            galleryImages.push(img.src);
+        }
+    });
+}
+
+// Inicijalno prikupi slike
+function initGallery() {
+    const allItems = document.querySelectorAll('.gallery-item');
+    galleryImages = [];
+    
+    allItems.forEach((item, index) => {
+        const img = item.querySelector('img');
+        if (img) {
+            galleryImages.push(img.src);
+        }
+        
+        // Klik na sliku otvara lightbox
+        item.addEventListener('click', () => {
+            // Ako galerija nije prosirena, koristi samo prvih 6
+            if (!isGalleryExpanded && index >= 6) return;
+            
+            currentImageIndex = isGalleryExpanded ? index : index;
+            openLightbox();
+        });
+    });
+}
+
+// Toggle gallery - prikazi/sakrij dodatne slike
+galleryToggleBtn.addEventListener('click', function() {
+    isGalleryExpanded = !isGalleryExpanded;
+    
+    if (isGalleryExpanded) {
+        galleryGrid.classList.add('expanded');
+        this.querySelector('span').textContent = 'Vidi manje';
+    } else {
+        galleryGrid.classList.remove('expanded');
+        this.querySelector('span').textContent = 'Vidi više';
+        
+        // Scroll do galerije ako je korisnik otisao predaleko
+        const gallerySection = document.getElementById('galerija');
+        const rect = gallerySection.getBoundingClientRect();
+        if (rect.bottom < 0) {
+            gallerySection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+});
+
+// Otvori lightbox
+function openLightbox() {
+    // Azuriraj listu slika ovisno o stanju galerije
+    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    
+    lightboxImage.src = galleryImages[currentImageIndex];
+    updateCounter(totalImages);
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Zatvori lightbox
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Prethodna slika
+function prevImage() {
+    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+    updateLightboxImage();
+}
+
+// Sljedeca slika
+function nextImage() {
+    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    currentImageIndex = (currentImageIndex + 1) % totalImages;
+    updateLightboxImage();
+}
+
+// Azuriraj sliku u lightboxu
+function updateLightboxImage() {
+    const totalImages = isGalleryExpanded ? galleryImages.length : 6;
+    lightboxImage.style.animation = 'none';
+    lightboxImage.offsetHeight; // Trigger reflow
+    lightboxImage.style.animation = 'lightbox-zoom 0.3s ease';
+    lightboxImage.src = galleryImages[currentImageIndex];
+    updateCounter(totalImages);
+}
+
+// Azuriraj brojac
+function updateCounter(total) {
+    lightboxCounter.textContent = `${currentImageIndex + 1} / ${total}`;
+}
+
+// Inicijaliziraj galeriju
+initGallery();
+
+// Event listeneri
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxPrev.addEventListener('click', prevImage);
+lightboxNext.addEventListener('click', nextImage);
+
+// Zatvori na klik izvan slike
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+        closeLightbox();
+    }
+});
+
+// Keyboard navigacija
+document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    
+    switch (e.key) {
+        case 'Escape':
+            closeLightbox();
+            break;
+        case 'ArrowLeft':
+            prevImage();
+            break;
+        case 'ArrowRight':
+            nextImage();
+            break;
+    }
+});
+
+// Touch/Swipe podrska za mobilne uredaje
+let touchStartX = 0;
+let touchEndX = 0;
+
+lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+lightbox.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            nextImage();
+        } else {
+            prevImage();
+        }
+    }
+}

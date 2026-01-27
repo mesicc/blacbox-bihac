@@ -268,40 +268,113 @@
                 <h2 class="section-title">Naša <span class="gradient-text">zajednica</span></h2>
             </div>
 
-            <div class="gallery-grid">
-                <div class="gallery-item tall">
-                    <img src="img/about-section2.jpg" alt="Gallery 1">
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Prvih 6 slika - uvijek vidljive -->
+                <div class="gallery-item" data-index="0">
+                    <img src="img/galerija/galerija1.jpg" alt="Slika 1">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/galerija1.jpg" alt="Gallery 2">
+                <div class="gallery-item" data-index="1">
+                    <img src="img/galerija/galerija2.jpg" alt="Slika 2">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/galerija2.jpg" alt="Gallery 3">
+                <div class="gallery-item" data-index="2">
+                    <img src="img/galerija/galerija3.jpg" alt="Slika 3">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/galerija3.jpg" alt="Gallery 4">
+                <div class="gallery-item" data-index="3">
+                    <img src="img/galerija/galerija4.jpg" alt="Slika 4">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/galerija4.jpg" alt="Gallery 5">
+                <div class="gallery-item" data-index="4">
+                    <img src="img/galerija/galerija5.jpg" alt="Slika 5">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
-                <div class="gallery-item tall">
-                    <img src="img/galerija5.jpg" alt="Gallery 6">
+                <div class="gallery-item" data-index="5">
+                    <img src="img/galerija/galerija6.jpg" alt="Slika 6">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                
+                <!-- Skrivene slike - prikazuju se na klik -->
+                <div class="gallery-item gallery-hidden" data-index="6">
+                    <img src="img/galerija/galerija7.jpg" alt="Slika 7">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="7">
+                    <img src="img/galerija/galerija8.jpg" alt="Slika 8">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="8">
+                    <img src="img/galerija/galerija9.jpg" alt="Slika 9">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="9">
+                    <img src="img/galerija/galerija10.jpg" alt="Slika 10">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="10">
+                    <img src="img/galerija/galerija11.jpg" alt="Slika 11">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="11">
+                    <img src="img/galerija/galerija12.jpg" alt="Slika 12">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="11">
+                    <img src="img/galerija/galerija14.jpg" alt="Slika 13">
+                    <div class="gallery-overlay"></div>
+                    <div class="gallery-border"></div>
+                </div>
+                <div class="gallery-item gallery-hidden" data-index="11">
+                    <img src="img/galerija/galerija13.jpg" alt="Slika 14">
                     <div class="gallery-overlay"></div>
                     <div class="gallery-border"></div>
                 </div>
             </div>
+
+            <div class="gallery-button-wrapper">
+                <button class="btn btn-primary" id="galleryToggleBtn">
+                    <span>Vidi više</span>
+                </button>
+            </div>
         </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Zatvori">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Prethodna slika">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Sljedeca slika">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img src="/placeholder.svg" alt="Gallery Image" id="lightboxImage">
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 6</div>
+    </div>
+       
 
     <!-- Contact Info Section -->
     <section id="kontakt" class="contact-section">

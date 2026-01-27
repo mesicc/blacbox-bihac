@@ -1128,7 +1128,10 @@ body:not(.dark-mode) .program-card:hover .program-description {
     color: var(--white);
 }
 
-/* Gallery Section */
+
+/* ------------------------------------------------------------------ */
+/* ------------------------ GALLERY SECTION ------------------------- */
+/* -------------------------------------------Kemal Mešić------------ */
 .gallery-section {
     padding: 6rem 0;
     transition: var(--transition);
@@ -1144,24 +1147,20 @@ body:not(.dark-mode) .gallery-section {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1rem;
 }
 
 .gallery-item {
     position: relative;
-    aspect-ratio: 1;
+    aspect-ratio: 4/3;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
-.gallery-item.tall {
-    grid-row: span 2;
-}
-
 .gallery-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
     z-index: 10;
 }
 
@@ -1195,14 +1194,166 @@ body:not(.dark-mode) .gallery-overlay {
     inset: 0;
     border: 2px solid var(--red-600);
     opacity: 0;
-    transition: opacity 0.3s ease;
-    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale(0.9);
 }
 
 .gallery-item:hover .gallery-border {
     opacity: 1;
     transform: scale(1);
 }
+
+/* Skrivene slike u galeriji */
+.gallery-item.gallery-hidden {
+    display: none;
+}
+
+.gallery-grid.expanded .gallery-item.gallery-hidden {
+    display: block;
+    animation: gallery-fade-in 0.5s ease forwards;
+}
+
+@keyframes gallery-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Gallery Button Wrapper */
+.gallery-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.gallery-button-wrapper .btn {
+    min-width: 180px;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border: 2px solid var(--zinc-800);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: lightbox-zoom 0.3s ease;
+}
+
+@keyframes lightbox-zoom {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-close:hover {
+    transform: scale(1.1) rotate(90deg);
+}
+
+.lightbox-close svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--white);
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.5rem;
+    height: 3.5rem;
+    background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-nav:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--white);
+}
+
+.lightbox-prev {
+    left: 1rem;
+}
+
+.lightbox-next {
+    right: 1rem;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--white);
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+}
+
 
 /* Contact Section */
 .contact-section {
@@ -1582,6 +1733,14 @@ body:not(.dark-mode) .footer-copyright {
 /* ------------------------------------------------------------------ */
 /* --------------------------- RESPONSIVE --------------------------- */
 /* -------------------------------------------Kemal Mešić------------ */
+
+/* Gallery Responsive - Mobile First */
+@media (min-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (min-width: 640px) {
     .hero-buttons {
         flex-direction: row;
@@ -1598,13 +1757,13 @@ body:not(.dark-mode) .footer-copyright {
     .contact-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
-    .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 @media (min-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .about-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1621,6 +1780,24 @@ body:not(.dark-mode) .footer-copyright {
     .map-section {
         height: 31.25rem;
     }
+
+    .lightbox-nav {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .lightbox-prev {
+        left: 2rem;
+    }
+
+    .lightbox-next {
+        right: 2rem;
+    }
+
+    .lightbox-close {
+        top: 2rem;
+        right: 2rem;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -1630,6 +1807,28 @@ body:not(.dark-mode) .footer-copyright {
 
     .contact-grid {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 479px) {
+    .lightbox-nav {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .lightbox-nav svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .lightbox-close {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .lightbox-close svg {
+        width: 1.25rem;
+        height: 1.25rem;
     }
 }
 
@@ -1685,5 +1884,3 @@ body:not(.dark-mode) .footer-copyright {
         display: block;
     }
 }
-
-
