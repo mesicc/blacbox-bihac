@@ -1622,13 +1622,13 @@ body:not(.dark-mode) .footer {
 }
 
 .dark-mode .footer-grid {
-    background-image: 
+    background-image:
         linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
 }
 
 body:not(.dark-mode) .footer-grid {
-    background-image: 
+    background-image:
         linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
 }
@@ -1659,17 +1659,14 @@ body:not(.dark-mode) .footer-grid {
 .footer-quote {
     font-style: italic;
     margin-bottom: 0.5rem;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .dark-mode .footer-quote {
-    background: linear-gradient(90deg, var(--zinc-400), var(--zinc-600));
+    color: var(--zinc-300);
 }
 
 body:not(.dark-mode) .footer-quote {
-    background: linear-gradient(90deg, var(--zinc-600), var(--zinc-800));
+    color: var(--zinc-700);
 }
 
 .footer-copyright {
@@ -1682,6 +1679,17 @@ body:not(.dark-mode) .footer-quote {
 
 body:not(.dark-mode) .footer-copyright {
     color: var(--zinc-600);
+}
+
+.footer-copyright a {
+    color: var(--red-500);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-copyright a:hover {
+    color: var(--orange-500);
+    text-decoration: underline;
 }
 
 .footer-social {
