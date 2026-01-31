@@ -101,61 +101,6 @@ $grupe = dohvatiSveGrupe();
     <?php endforeach; ?>
 </div>
 
-<style>
-    .mobile-cards {
-        display: none;
-    }
-    
-    .mobile-card {
-        background: var(--zinc-800);
-        border: 1px solid var(--zinc-700);
-        margin-bottom: 1rem;
-        padding: 1rem;
-    }
-    
-    .mobile-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--zinc-700);
-    }
-    
-    .mobile-card-header strong {
-        color: var(--white);
-        font-size: 1rem;
-    }
-    
-    .mobile-card-body {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .mobile-card-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: var(--zinc-300);
-        font-size: 0.875rem;
-    }
-    
-    .mobile-card-label {
-        color: var(--zinc-500);
-    }
-    
-    @media (max-width: 600px) {
-        .table-container {
-            display: none;
-        }
-        
-        .mobile-cards {
-            display: block;
-        }
-    }
-</style>
-
 <!-- Modal: Nova grupa -->
 <div class="modal-overlay" id="modalNovaGrupa">
     <div class="modal">
@@ -224,16 +169,5 @@ $grupe = dohvatiSveGrupe();
         </form>
     </div>
 </div>
-
-<script>
-function urediGrupu(grupa) {
-    document.getElementById('uredi_grupa_id').value = grupa.id;
-    document.getElementById('uredi_naziv').value = grupa.naziv;
-    document.getElementById('uredi_opis').value = grupa.opis || '';
-    document.getElementById('uredi_kapacitet').value = grupa.kapacitet;
-    document.getElementById('uredi_aktivna').checked = grupa.aktivna == 1;
-    otvoriModal('modalUrediGrupu');
-}
-</script>
 
 <?php require_once 'includes/footer.php'; ?>

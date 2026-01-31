@@ -116,104 +116,6 @@ foreach ($clanarine as $c) {
     <?php endforeach; ?>
 </div>
 
-<style>
-    .navigation-card {
-        margin-bottom: 1.5rem;
-    }
-    
-    .navigation-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .navigation-header .card-title {
-        margin: 0;
-    }
-    
-    .navigation-buttons {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-    }
-    
-    .mobile-cards {
-        display: none;
-    }
-    
-    .mobile-card {
-        background: var(--zinc-800);
-        border: 1px solid var(--zinc-700);
-        margin-bottom: 1rem;
-        padding: 1rem;
-    }
-    
-    .mobile-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--zinc-700);
-    }
-    
-    .mobile-card-header strong {
-        color: var(--white);
-        font-size: 1rem;
-        display: block;
-    }
-    
-    .mobile-card-status {
-        margin-top: 0.5rem;
-    }
-    
-    .mobile-card-body {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .mobile-card-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: var(--zinc-300);
-        font-size: 0.875rem;
-    }
-    
-    .mobile-card-label {
-        color: var(--zinc-500);
-    }
-    
-    @media (max-width: 768px) {
-        .navigation-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        
-        .navigation-header .card-title {
-            font-size: 1rem;
-        }
-        
-        .navigation-buttons {
-            width: 100%;
-            justify-content: space-between;
-        }
-    }
-    
-    @media (max-width: 600px) {
-        .table-container {
-            display: none;
-        }
-        
-        .mobile-cards {
-            display: block;
-        }
-    }
-</style>
-
 <!-- Modal: Uredi clanarinu -->
 <div class="modal-overlay" id="modalClanarina">
     <div class="modal">
@@ -246,24 +148,5 @@ foreach ($clanarine as $c) {
         </form>
     </div>
 </div>
-
-<script>
-function urediClanarinu(korisnikId, ime, clanarina) {
-    document.getElementById('clanarina_korisnik_id').value = korisnikId;
-    document.getElementById('modal_ime_klijenta').textContent = ime;
-    
-    if (clanarina) {
-        document.getElementById('clanarina_iznos').value = clanarina.iznos;
-        document.getElementById('clanarina_placeno').checked = clanarina.placeno == 1;
-        document.getElementById('clanarina_napomena').value = clanarina.napomena || '';
-    } else {
-        document.getElementById('clanarina_iznos').value = '50.00';
-        document.getElementById('clanarina_placeno').checked = false;
-        document.getElementById('clanarina_napomena').value = '';
-    }
-    
-    otvoriModal('modalClanarina');
-}
-</script>
 
 <?php require_once 'includes/footer.php'; ?>
