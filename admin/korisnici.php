@@ -103,8 +103,8 @@ $grupe = dohvatiSveGrupe();
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">Lista korisnika</h2>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <select onchange="window.location.href='korisnici.php?filter='+this.value" style="padding: 0.5rem; background: var(--zinc-800); border: 1px solid var(--zinc-700); color: var(--white);">
+        <div class="card-header-actions">
+            <select onchange="window.location.href='korisnici.php?filter='+this.value" class="filter-select">
                 <option value="svi" <?= $filter === 'svi' ? 'selected' : '' ?>>Svi korisnici</option>
                 <option value="klijenti" <?= $filter === 'klijenti' ? 'selected' : '' ?>>Samo klijenti</option>
                 <option value="admini" <?= $filter === 'admini' ? 'selected' : '' ?>>Samo admini</option>
@@ -167,6 +167,159 @@ $grupe = dohvatiSveGrupe();
         </table>
     </div>
 </div>
+
+<!-- Mobile Cards View -->
+<div class="mobile-cards">
+    <?php foreach ($korisnici as $korisnik): ?>
+        <?php $korisnikGrupe = dohvatiGrupeKorisnika($korisnik['id']); ?>
+        <div class="mobile-card">
+            <div class="mobile-card-header">
+                <div>
+                    <strong><?= $korisnik['ime'] . ' ' . $korisnik['prezime'] ?></strong>
+                    <div class="mobile-card-subtitle">@<?= $korisnik['korisnicko_ime'] ?></div>
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="urediKorisnika(<?= htmlspecialchars(json_encode($korisnik)) ?>, <?= htmlspecialchars(json_encode(array_column($korisnikGrupe, 'id'))) ?>)">Uredi</button>
+            </div>
+            <div class="mobile-card-body">
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Email:</span>
+                    <span><?= $korisnik['email'] ?: '-' ?></span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Uloga:</span>
+                    <span>
+                        <?php if ($korisnik['uloga'] === 'glavni_admin'): ?>
+                            <span class="badge badge-danger">Glavni Admin</span>
+                        <?php elseif ($korisnik['uloga'] === 'admin'): ?>
+                            <span class="badge badge-warning">Admin</span>
+                        <?php else: ?>
+                            <span class="badge badge-info">Klijent</span>
+                        <?php endif; ?>
+                    </span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Status:</span>
+                    <span>
+                        <?php if ($korisnik['aktivan']): ?>
+                            <span class="badge badge-success">Aktivan</span>
+                        <?php else: ?>
+                            <span class="badge badge-danger">Neaktivan</span>
+                        <?php endif; ?>
+                    </span>
+                </div>
+                <?php if ($korisnikGrupe): ?>
+                <div class="mobile-card-row mobile-card-row-wrap">
+                    <span class="mobile-card-label">Grupe:</span>
+                    <span class="badges-container">
+                        <?php foreach ($korisnikGrupe as $g): ?>
+                            <span class="badge badge-success"><?= $g['naziv'] ?></span>
+                        <?php endforeach; ?>
+                    </span>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .card-header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-select {
+        padding: 0.5rem;
+        background: var(--zinc-800);
+        border: 1px solid var(--zinc-700);
+        color: var(--white);
+        font-size: 0.875rem;
+    }
+    
+    .mobile-cards {
+        display: none;
+    }
+    
+    .mobile-card {
+        background: var(--zinc-800);
+        border: 1px solid var(--zinc-700);
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+    
+    .mobile-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--zinc-700);
+    }
+    
+    .mobile-card-header strong {
+        color: var(--white);
+        font-size: 1rem;
+        display: block;
+    }
+    
+    .mobile-card-subtitle {
+        color: var(--zinc-500);
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+    
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--zinc-300);
+        font-size: 0.875rem;
+    }
+    
+    .mobile-card-row-wrap {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-label {
+        color: var(--zinc-500);
+    }
+    
+    .badges-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        justify-content: flex-end;
+    }
+    
+    @media (max-width: 768px) {
+        .card-header-actions {
+            width: 100%;
+        }
+        
+        .filter-select {
+            flex: 1;
+        }
+    }
+    
+    @media (max-width: 700px) {
+        .table-container {
+            display: none;
+        }
+        
+        .mobile-cards {
+            display: block;
+        }
+    }
+</style>
 
 <!-- Modal: Novi korisnik -->
 <div class="modal-overlay" id="modalNoviKorisnik">

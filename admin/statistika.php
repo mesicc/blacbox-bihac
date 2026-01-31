@@ -95,23 +95,23 @@ foreach ($grupe as $grupa) {
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+<div class="statistika-grid">
     <!-- Zarada po mjesecima -->
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Zarada po mjesecima</h2>
         </div>
         
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="zarada-lista">
             <?php foreach ($zaradaPoMjesecima as $mj): ?>
-                <div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                        <span style="color: var(--zinc-400);"><?= $mj['mjesec'] ?></span>
-                        <span style="color: var(--white); font-weight: 600;"><?= number_format($mj['zarada'], 2) ?> KM</span>
+                <div class="zarada-item">
+                    <div class="zarada-info">
+                        <span class="zarada-mjesec"><?= $mj['mjesec'] ?></span>
+                        <span class="zarada-iznos"><?= number_format($mj['zarada'], 2) ?> KM</span>
                     </div>
-                    <div style="height: 8px; background: var(--zinc-800); overflow: hidden;">
+                    <div class="zarada-bar">
                         <?php $maxZarada = max(array_column($zaradaPoMjesecima, 'zarada')) ?: 1; ?>
-                        <div style="height: 100%; width: <?= ($mj['zarada'] / $maxZarada) * 100 ?>%; background: linear-gradient(90deg, var(--red-600), var(--orange-600));"></div>
+                        <div class="zarada-bar-fill" style="width: <?= ($mj['zarada'] / $maxZarada) * 100 ?>%;"></div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -144,6 +144,19 @@ foreach ($grupe as $grupa) {
                 </tbody>
             </table>
         </div>
+        
+        <!-- Mobile Top Klijenti -->
+        <div class="mobile-top-list">
+            <?php $rbr = 1; foreach ($topKlijenti as $klijent): ?>
+                <div class="top-item">
+                    <div class="top-rank"><?= $rbr++ ?></div>
+                    <div class="top-info">
+                        <span class="top-name"><?= $klijent['ime'] . ' ' . $klijent['prezime'] ?></span>
+                        <span class="top-treninzi"><?= $klijent['broj_treninga'] ?> treninga</span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
     
     <!-- Klijenti po grupama -->
@@ -152,15 +165,175 @@ foreach ($grupe as $grupa) {
             <h2 class="card-title">Klijenti po grupama</h2>
         </div>
         
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="grupe-lista">
             <?php foreach ($klijentiPoGrupama as $grupa): ?>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--zinc-800);">
-                    <span style="color: var(--white);"><?= $grupa['naziv'] ?></span>
+                <div class="grupa-item">
+                    <span class="grupa-naziv"><?= $grupa['naziv'] ?></span>
                     <span class="badge badge-info"><?= $grupa['broj'] ?> clanova</span>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+
+<style>
+    .statistika-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .zarada-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .zarada-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .zarada-info {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .zarada-mjesec {
+        color: var(--zinc-400);
+    }
+    
+    .zarada-iznos {
+        color: var(--white);
+        font-weight: 600;
+    }
+    
+    .zarada-bar {
+        height: 8px;
+        background: var(--zinc-800);
+        overflow: hidden;
+    }
+    
+    .zarada-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--red-600), var(--orange-600));
+        transition: width 0.3s ease;
+    }
+    
+    .grupe-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .grupa-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--zinc-800);
+    }
+    
+    .grupa-naziv {
+        color: var(--white);
+    }
+    
+    .mobile-top-list {
+        display: none;
+    }
+    
+    .top-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem;
+        background: var(--zinc-800);
+        margin-bottom: 0.5rem;
+    }
+    
+    .top-rank {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+        color: var(--white);
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+    
+    .top-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .top-name {
+        color: var(--white);
+        font-weight: 500;
+    }
+    
+    .top-treninzi {
+        color: var(--zinc-500);
+        font-size: 0.875rem;
+    }
+    
+    @media (max-width: 992px) {
+        .statistika-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .statistika-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .table-container {
+            display: none;
+        }
+        
+        .mobile-top-list {
+            display: block;
+        }
+        
+        .zarada-info {
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .zarada-iznos {
+            font-size: 0.9rem;
+        }
+        
+        .grupa-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .top-item {
+            padding: 0.5rem;
+        }
+        
+        .top-rank {
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .top-name {
+            font-size: 0.9rem;
+        }
+        
+        .top-treninzi {
+            font-size: 0.8rem;
+        }
+    }
+</style>
 
 <?php require_once 'includes/footer.php'; ?>

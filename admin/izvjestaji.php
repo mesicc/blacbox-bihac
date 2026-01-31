@@ -22,10 +22,10 @@ foreach ($izvjestaj as $red) {
 }
 ?>
 
-<div class="card" style="margin-bottom: 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <h2 class="card-title" style="margin: 0;">Izvjestaj - <?= imeMjeseca($mjesec) ?> <?= $godina ?></h2>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+<div class="card navigation-card">
+    <div class="navigation-header">
+        <h2 class="card-title">Izvjestaj - <?= imeMjeseca($mjesec) ?> <?= $godina ?></h2>
+        <div class="navigation-buttons">
             <a href="?mjesec=<?= $mjesec == 1 ? 12 : $mjesec - 1 ?>&godina=<?= $mjesec == 1 ? $godina - 1 : $godina ?>" class="btn btn-secondary btn-small">&larr; Prethodni</a>
             <a href="?mjesec=<?= $mjesec == 12 ? 1 : $mjesec + 1 ?>&godina=<?= $mjesec == 12 ? $godina + 1 : $godina ?>" class="btn btn-secondary btn-small">Sljedeci &rarr;</a>
         </div>
@@ -103,7 +103,7 @@ foreach ($izvjestaj as $red) {
                         <td><?= $rbr++ ?></td>
                         <td><strong><?= $red['ime'] . ' ' . $red['prezime'] ?></strong></td>
                         <td>
-                            <span style="font-size: 1.25rem; font-weight: 700; color: var(--white);"><?= $red['broj_treninga'] ?></span>
+                            <span class="treninzi-broj"><?= $red['broj_treninga'] ?></span>
                         </td>
                         <td>
                             <?php if ($red['placeno']): ?>
@@ -118,5 +118,167 @@ foreach ($izvjestaj as $red) {
         </table>
     </div>
 </div>
+
+<!-- Mobile Cards View -->
+<div class="mobile-cards">
+    <?php $rbr = 1; foreach ($izvjestaj as $red): ?>
+        <div class="mobile-card">
+            <div class="mobile-card-header">
+                <div class="mobile-card-rank"><?= $rbr++ ?></div>
+                <div class="mobile-card-user">
+                    <strong><?= $red['ime'] . ' ' . $red['prezime'] ?></strong>
+                    <?php if ($red['placeno']): ?>
+                        <span class="badge badge-success">Placeno</span>
+                    <?php else: ?>
+                        <span class="badge badge-danger">Neplaceno</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="mobile-card-body">
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Broj treninga:</span>
+                    <span class="treninzi-broj"><?= $red['broj_treninga'] ?></span>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .navigation-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .navigation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .navigation-header .card-title {
+        margin: 0;
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .treninzi-broj {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--white);
+    }
+    
+    .mobile-cards {
+        display: none;
+    }
+    
+    .mobile-card {
+        background: var(--zinc-800);
+        border: 1px solid var(--zinc-700);
+        margin-bottom: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .mobile-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--zinc-700);
+    }
+    
+    .mobile-card-rank {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+        color: var(--white);
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+    
+    .mobile-card-user {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-user strong {
+        color: var(--white);
+        font-size: 1rem;
+    }
+    
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--zinc-300);
+        font-size: 0.875rem;
+    }
+    
+    .mobile-card-label {
+        color: var(--zinc-500);
+    }
+    
+    @media (max-width: 768px) {
+        .navigation-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .navigation-header .card-title {
+            font-size: 1rem;
+        }
+        
+        .navigation-buttons {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .table-container {
+            display: none;
+        }
+        
+        .mobile-cards {
+            display: block;
+        }
+        
+        .treninzi-broj {
+            font-size: 1.1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .mobile-card {
+            padding: 0.75rem;
+        }
+        
+        .mobile-card-rank {
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .mobile-card-user strong {
+            font-size: 0.9rem;
+        }
+    }
+</style>
 
 <?php require_once 'includes/footer.php'; ?>

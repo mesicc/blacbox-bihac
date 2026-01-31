@@ -18,6 +18,10 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             --sidebar-width: 250px;
         }
         
+        * {
+            box-sizing: border-box;
+        }
+        
         .admin-layout {
             display: flex;
             min-height: 100vh;
@@ -34,6 +38,8 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             bottom: 0;
             overflow-y: auto;
             z-index: 100;
+            display: flex;
+            flex-direction: column;
         }
         
         .sidebar-header {
@@ -58,6 +64,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         
         .sidebar-nav {
             padding: 1rem 0;
+            flex: 1;
         }
         
         .nav-section {
@@ -98,6 +105,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         .nav-link svg {
             width: 1.25rem;
             height: 1.25rem;
+            flex-shrink: 0;
         }
         
         .sidebar-footer {
@@ -122,16 +130,22 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             justify-content: center;
             font-weight: 700;
             color: var(--white);
+            flex-shrink: 0;
+            border-radius: 50%;
         }
         
         .user-info {
             flex: 1;
+            min-width: 0;
         }
         
         .user-name {
             font-weight: 600;
             font-size: 0.875rem;
             color: var(--white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .user-role {
@@ -154,12 +168,42 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
         
         .page-title {
             font-weight: 900;
             font-size: 1.5rem;
             color: var(--white);
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .menu-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
         }
         
         .admin-content {
@@ -181,6 +225,8 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--zinc-800);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .card-title {
@@ -192,7 +238,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -213,6 +259,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--red-600), var(--orange-600));
+            flex-shrink: 0;
         }
         
         .stat-icon svg {
@@ -223,12 +270,16 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         
         .stat-content {
             flex: 1;
+            min-width: 0;
         }
         
         .stat-value {
             font-weight: 900;
             font-size: 1.5rem;
             color: var(--white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .stat-label {
@@ -239,11 +290,13 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         /* Tables */
         .table-container {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
         
         th, td {
@@ -258,6 +311,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             letter-spacing: 0.05em;
             color: var(--zinc-500);
             background: var(--zinc-950);
+            white-space: nowrap;
         }
         
         td {
@@ -275,6 +329,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
+            white-space: nowrap;
         }
         
         .badge-success {
@@ -300,7 +355,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         /* Forms */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
         
@@ -327,6 +382,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             color: var(--white);
             font-size: 1rem;
             font-family: inherit;
+            width: 100%;
         }
         
         .form-grupa input:focus,
@@ -340,12 +396,34 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
         
         /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
         .btn-small {
             padding: 0.5rem 1rem;
             font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--red-600);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--red-700);
         }
         
         .btn-danger {
@@ -356,6 +434,20 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         .btn-secondary {
             background: var(--zinc-700);
             color: var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--zinc-600);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--zinc-700);
+            color: var(--white);
+        }
+        
+        .btn-outline:hover {
+            background: var(--zinc-800);
         }
         
         /* Alert Messages */
@@ -388,6 +480,8 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 1rem;
+            overflow-y: auto;
         }
         
         .modal-overlay.active {
@@ -401,6 +495,7 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
+            margin: auto;
         }
         
         .modal-header {
@@ -409,11 +504,16 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--zinc-900);
+            z-index: 1;
         }
         
         .modal-title {
             font-weight: 700;
             color: var(--white);
+            font-size: 1rem;
         }
         
         .modal-close {
@@ -422,6 +522,8 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             color: var(--zinc-400);
             cursor: pointer;
             padding: 0.5rem;
+            font-size: 1.5rem;
+            line-height: 1;
         }
         
         .modal-close:hover {
@@ -438,6 +540,10 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
+            flex-wrap: wrap;
+            position: sticky;
+            bottom: 0;
+            background: var(--zinc-900);
         }
         
         /* Checkbox Group */
@@ -458,17 +564,57 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         
         .checkbox-item input {
             accent-color: var(--red-600);
+            width: auto;
         }
         
         .checkbox-item:hover {
             background: var(--zinc-700);
         }
         
-        /* Responsive */
+        /* ==================== */
+        /* RESPONSIVE STYLES    */
+        /* ==================== */
+        
+        /* Large tablets and small desktops */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Tablets */
+        @media (max-width: 992px) {
+            :root {
+                --sidebar-width: 220px;
+            }
+            
+            .admin-content {
+                padding: 1.5rem;
+            }
+            
+            .admin-header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.25rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* Small tablets and large phones */
         @media (max-width: 768px) {
             .admin-sidebar {
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
+                width: 280px;
             }
             
             .admin-sidebar.active {
@@ -479,16 +625,295 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
                 margin-left: 0;
             }
             
+            .menu-toggle {
+                display: block;
+            }
+            
+            .admin-header {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.125rem;
+            }
+            
+            .admin-content {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .stat-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            .stat-icon svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+            
+            .stat-value {
+                font-size: 1.125rem;
+            }
+            
+            .stat-label {
+                font-size: 0.75rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal {
+                max-width: 100%;
+                margin: 0;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+            
+            .modal-overlay {
+                padding: 0;
+                align-items: flex-end;
+            }
+            
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+            
+            .modal-footer .btn {
+                width: 100%;
+            }
+            
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            table {
+                min-width: 500px;
+            }
+            
+            .btn-small {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            /* Fix for card header buttons */
+            .card-header > div {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                width: 100%;
+            }
+            
+            .card-header > div select {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+        
+        /* Mobile phones */
+        @media (max-width: 480px) {
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .admin-header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .page-title {
+                font-size: 1rem;
+            }
+            
+            .admin-content {
+                padding: 0.75rem;
+            }
+            
+            .card {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+            
+            .card-header {
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+            }
+            
+            .card-title {
+                font-size: 0.9rem;
+            }
+            
+            .badge {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.65rem;
+            }
+            
+            table {
+                min-width: 400px;
+            }
+            
+            th, td {
+                padding: 0.5rem 0.4rem;
+                font-size: 0.8rem;
+            }
+            
+            .form-grupa label {
+                font-size: 0.75rem;
+            }
+            
+            .form-grupa input,
+            .form-grupa select,
+            .form-grupa textarea {
+                padding: 0.6rem 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .checkbox-group {
+                gap: 0.5rem;
+            }
+            
+            .checkbox-item {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+            
+            .sidebar-header {
+                padding: 1rem;
+            }
+            
+            .sidebar-logo {
+                font-size: 1.1rem;
+            }
+            
+            .nav-link {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .sidebar-footer {
+                padding: 1rem;
+            }
+            
+            .user-avatar {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.75rem;
+            }
+            
+            .user-name {
+                font-size: 0.8rem;
+            }
+            
+            .user-role {
+                font-size: 0.7rem;
+            }
+            
+            .alert {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        /* Extra small phones */
+        @media (max-width: 360px) {
+            .admin-sidebar {
+                width: 100%;
+            }
+            
+            .stat-card {
+                padding: 0.75rem;
+            }
+            
+            .stat-icon {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .stat-icon svg {
+                width: 1rem;
+                height: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            table {
+                min-width: 350px;
+            }
+            
+            th, td {
+                padding: 0.4rem 0.3rem;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .admin-sidebar,
+            .menu-toggle,
+            .btn,
+            .modal-overlay {
+                display: none !important;
+            }
+            
+            .admin-main {
+                margin-left: 0 !important;
+            }
+            
+            .admin-content {
+                padding: 0 !important;
+            }
+            
+            .card {
+                border: 1px solid #ccc;
+                break-inside: avoid;
             }
         }
     </style>
 </head>
 <body class="dark-mode">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="admin-layout">
         <!-- Sidebar -->
-        <aside class="admin-sidebar">
+        <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">BLACKBOX BIHAC</div>
                 <div class="sidebar-subtitle">Admin Panel</div>
@@ -568,7 +993,14 @@ $trenutnaStranica = basename($_SERVER['PHP_SELF'], '.php');
         <!-- Main Content -->
         <main class="admin-main">
             <header class="admin-header">
-                <h1 class="page-title"><?= $naslovStranice ?? 'Dashboard' ?></h1>
+                <div style="display: flex; align-items: center;">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <h1 class="page-title"><?= $naslovStranice ?? 'Dashboard' ?></h1>
+                </div>
             </header>
             
             <div class="admin-content">
