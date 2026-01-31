@@ -49,7 +49,7 @@ $rezervacije = $odabraniTrening ? dohvatiRezervacijeTreninga($odabraniTrening) :
 $daniUSedmici = ['ponedjeljak', 'utorak', 'srijeda', 'cetvrtak', 'petak', 'subota', 'nedjelja'];
 ?>
 
-<div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+<div class="termini-grid">
     <!-- Termini po grupama -->
     <div class="card">
         <div class="card-header">
@@ -88,6 +88,19 @@ $daniUSedmici = ['ponedjeljak', 'utorak', 'srijeda', 'cetvrtak', 'petak', 'subot
                     </tbody>
                 </table>
             </div>
+            
+            <!-- Mobile Termini Cards -->
+            <div class="mobile-termini-list">
+                <?php foreach ($termini as $termin): ?>
+                    <div class="termin-item">
+                        <div class="termin-info">
+                            <strong><?= imeDana($termin['dan_u_sedmici']) ?></strong>
+                            <span><?= substr($termin['vrijeme_pocetka'], 0, 5) ?> - <?= substr($termin['vrijeme_zavrsetka'], 0, 5) ?></span>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="zakaziTrening(<?= $termin['id'] ?>, '<?= imeDana($termin['dan_u_sedmici']) ?> <?= substr($termin['vrijeme_pocetka'], 0, 5) ?>')">Zakazi</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         <?php else: ?>
             <p style="color: var(--zinc-500); text-align: center; padding: 2rem;">Nema termina za ovu grupu.</p>
         <?php endif; ?>
@@ -109,25 +122,27 @@ $daniUSedmici = ['ponedjeljak', 'utorak', 'srijeda', 'cetvrtak', 'petak', 'subot
         }
         ?>
         
-        <?php foreach ($sedmica as $datum => $treninziDan): ?>
-            <?php if ($treninziDan): ?>
-                <div style="margin-bottom: 1rem;">
-                    <p style="font-weight: 600; color: var(--zinc-400); margin-bottom: 0.5rem;">
-                        <?= formatirajDatum($datum, 'l, d.m.Y') ?>
-                        <?= $datum === $danas ? '<span class="badge badge-success">Danas</span>' : '' ?>
-                    </p>
-                    <?php foreach ($treninziDan as $trening): ?>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--zinc-800); margin-bottom: 0.5rem;">
-                            <div>
-                                <strong style="color: var(--white);"><?= $trening['grupa_naziv'] ?></strong>
-                                <span style="color: var(--zinc-500); margin-left: 0.5rem;"><?= substr($trening['vrijeme_pocetka'], 0, 5) ?></span>
+        <div class="treninzi-lista">
+            <?php foreach ($sedmica as $datum => $treninziDan): ?>
+                <?php if ($treninziDan): ?>
+                    <div class="trening-dan">
+                        <p class="trening-datum">
+                            <?= formatirajDatum($datum, 'l, d.m.Y') ?>
+                            <?= $datum === $danas ? '<span class="badge badge-success">Danas</span>' : '' ?>
+                        </p>
+                        <?php foreach ($treninziDan as $trening): ?>
+                            <div class="trening-item">
+                                <div class="trening-info">
+                                    <strong><?= $trening['grupa_naziv'] ?></strong>
+                                    <span class="trening-vrijeme"><?= substr($trening['vrijeme_pocetka'], 0, 5) ?></span>
+                                </div>
+                                <a href="?trening=<?= $trening['id'] ?>" class="btn btn-secondary btn-small">Prisustvo</a>
                             </div>
-                            <a href="?trening=<?= $trening['id'] ?>" class="btn btn-secondary btn-small">Prisustvo</a>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
@@ -161,7 +176,7 @@ $daniUSedmici = ['ponedjeljak', 'utorak', 'srijeda', 'cetvrtak', 'petak', 'subot
                             <?php endif; ?>
                         </td>
                         <td>
-                            <form method="POST" style="display: inline-flex; gap: 0.5rem;">
+                            <form method="POST" class="prisustvo-forma">
                                 <input type="hidden" name="akcija" value="azuriraj_prisustvo">
                                 <input type="hidden" name="rezervacija_id" value="<?= $rez['id'] ?>">
                                 <input type="hidden" name="trening_id" value="<?= $odabraniTrening ?>">
@@ -177,8 +192,182 @@ $daniUSedmici = ['ponedjeljak', 'utorak', 'srijeda', 'cetvrtak', 'petak', 'subot
             </tbody>
         </table>
     </div>
+    
+    <!-- Mobile Prisustvo Cards -->
+    <div class="mobile-prisustvo-list">
+        <?php foreach ($rezervacije as $rez): ?>
+            <div class="prisustvo-card">
+                <div class="prisustvo-header">
+                    <strong><?= $rez['ime'] . ' ' . $rez['prezime'] ?></strong>
+                    <?php if ($rez['status'] === 'prisutan'): ?>
+                        <span class="badge badge-success">Prisutan</span>
+                    <?php elseif ($rez['status'] === 'odsutan'): ?>
+                        <span class="badge badge-danger">Odsutan</span>
+                    <?php else: ?>
+                        <span class="badge badge-warning">Rezervisano</span>
+                    <?php endif; ?>
+                </div>
+                <form method="POST" class="prisustvo-forma-mobile">
+                    <input type="hidden" name="akcija" value="azuriraj_prisustvo">
+                    <input type="hidden" name="rezervacija_id" value="<?= $rez['id'] ?>">
+                    <input type="hidden" name="trening_id" value="<?= $odabraniTrening ?>">
+                    <button type="submit" name="status" value="prisutan" class="btn btn-primary btn-small">Prisutan</button>
+                    <button type="submit" name="status" value="odsutan" class="btn btn-danger btn-small">Odsutan</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+        <?php if (empty($rezervacije)): ?>
+            <p style="text-align: center; color: var(--zinc-500); padding: 2rem;">Nema rezervacija za ovaj trening.</p>
+        <?php endif; ?>
+    </div>
 </div>
 <?php endif; ?>
+
+<style>
+    .termini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .mobile-termini-list {
+        display: none;
+    }
+    
+    .termin-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--zinc-800);
+        margin-bottom: 0.5rem;
+    }
+    
+    .termin-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .termin-info strong {
+        color: var(--white);
+    }
+    
+    .termin-info span {
+        color: var(--zinc-500);
+        font-size: 0.875rem;
+    }
+    
+    .treninzi-lista {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .trening-dan {
+        margin-bottom: 1rem;
+    }
+    
+    .trening-datum {
+        font-weight: 600;
+        color: var(--zinc-400);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .trening-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--zinc-800);
+        margin-bottom: 0.5rem;
+    }
+    
+    .trening-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .trening-info strong {
+        color: var(--white);
+    }
+    
+    .trening-vrijeme {
+        color: var(--zinc-500);
+    }
+    
+    .prisustvo-forma {
+        display: inline-flex;
+        gap: 0.5rem;
+    }
+    
+    .mobile-prisustvo-list {
+        display: none;
+    }
+    
+    .prisustvo-card {
+        background: var(--zinc-800);
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .prisustvo-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .prisustvo-header strong {
+        color: var(--white);
+    }
+    
+    .prisustvo-forma-mobile {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .prisustvo-forma-mobile .btn {
+        flex: 1;
+    }
+    
+    @media (max-width: 992px) {
+        .termini-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .card .table-container {
+            display: none;
+        }
+        
+        .mobile-termini-list {
+            display: block;
+        }
+        
+        .mobile-prisustvo-list {
+            display: block;
+        }
+        
+        .trening-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .trening-item .btn {
+            width: 100%;
+        }
+    }
+</style>
 
 <!-- Modal: Novi termin -->
 <div class="modal-overlay" id="modalNoviTermin">

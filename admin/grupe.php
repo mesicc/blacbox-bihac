@@ -74,6 +74,88 @@ $grupe = dohvatiSveGrupe();
     </div>
 </div>
 
+<!-- Mobile Cards View -->
+<div class="mobile-cards">
+    <?php foreach ($grupe as $grupa): ?>
+        <?php $clanovi = dohvatiKorisnikeGrupe($grupa['id']); ?>
+        <div class="mobile-card">
+            <div class="mobile-card-header">
+                <strong><?= $grupa['naziv'] ?></strong>
+                <button class="btn btn-secondary btn-small" onclick="urediGrupu(<?= htmlspecialchars(json_encode($grupa)) ?>)">Uredi</button>
+            </div>
+            <div class="mobile-card-body">
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Opis:</span>
+                    <span><?= $grupa['opis'] ?: '-' ?></span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Kapacitet:</span>
+                    <span><?= $grupa['kapacitet'] ?></span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Broj clanova:</span>
+                    <span class="badge badge-info"><?= count($clanovi) ?></span>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .mobile-cards {
+        display: none;
+    }
+    
+    .mobile-card {
+        background: var(--zinc-800);
+        border: 1px solid var(--zinc-700);
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+    
+    .mobile-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--zinc-700);
+    }
+    
+    .mobile-card-header strong {
+        color: var(--white);
+        font-size: 1rem;
+    }
+    
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--zinc-300);
+        font-size: 0.875rem;
+    }
+    
+    .mobile-card-label {
+        color: var(--zinc-500);
+    }
+    
+    @media (max-width: 600px) {
+        .table-container {
+            display: none;
+        }
+        
+        .mobile-cards {
+            display: block;
+        }
+    }
+</style>
+
 <!-- Modal: Nova grupa -->
 <div class="modal-overlay" id="modalNovaGrupa">
     <div class="modal">

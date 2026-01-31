@@ -30,10 +30,10 @@ foreach ($clanarine as $c) {
 }
 ?>
 
-<div class="card" style="margin-bottom: 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 class="card-title" style="margin: 0;">Clanarine - <?= imeMjeseca($mjesec) ?> <?= $godina ?></h2>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+<div class="card navigation-card">
+    <div class="navigation-header">
+        <h2 class="card-title">Clanarine - <?= imeMjeseca($mjesec) ?> <?= $godina ?></h2>
+        <div class="navigation-buttons">
             <a href="?mjesec=<?= $mjesec == 1 ? 12 : $mjesec - 1 ?>&godina=<?= $mjesec == 1 ? $godina - 1 : $godina ?>" class="btn btn-secondary btn-small">&larr; Prethodni</a>
             <a href="?mjesec=<?= $mjesec == 12 ? 1 : $mjesec + 1 ?>&godina=<?= $mjesec == 12 ? $godina + 1 : $godina ?>" class="btn btn-secondary btn-small">Sljedeci &rarr;</a>
         </div>
@@ -77,6 +77,142 @@ foreach ($clanarine as $c) {
         </table>
     </div>
 </div>
+
+<!-- Mobile Cards View -->
+<div class="mobile-cards">
+    <?php foreach ($klijenti as $klijent): ?>
+        <?php $clanarina = $clanarinePoKorisniku[$klijent['id']] ?? null; ?>
+        <div class="mobile-card">
+            <div class="mobile-card-header">
+                <div>
+                    <strong><?= $klijent['ime'] . ' ' . $klijent['prezime'] ?></strong>
+                    <div class="mobile-card-status">
+                        <?php if ($clanarina && $clanarina['placeno']): ?>
+                            <span class="badge badge-success">Placeno</span>
+                        <?php else: ?>
+                            <span class="badge badge-danger">Neplaceno</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="urediClanarinu(<?= $klijent['id'] ?>, '<?= $klijent['ime'] . ' ' . $klijent['prezime'] ?>', <?= $clanarina ? htmlspecialchars(json_encode($clanarina)) : 'null' ?>)">Uredi</button>
+            </div>
+            <div class="mobile-card-body">
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Iznos:</span>
+                    <span><?= $clanarina ? number_format($clanarina['iznos'], 2) . ' KM' : '-' ?></span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Datum uplate:</span>
+                    <span><?= $clanarina && $clanarina['datum_uplate'] ? formatirajDatum($clanarina['datum_uplate']) : '-' ?></span>
+                </div>
+                <?php if ($clanarina && $clanarina['napomena']): ?>
+                <div class="mobile-card-row">
+                    <span class="mobile-card-label">Napomena:</span>
+                    <span><?= $clanarina['napomena'] ?></span>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+    .navigation-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .navigation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .navigation-header .card-title {
+        margin: 0;
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .mobile-cards {
+        display: none;
+    }
+    
+    .mobile-card {
+        background: var(--zinc-800);
+        border: 1px solid var(--zinc-700);
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+    
+    .mobile-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--zinc-700);
+    }
+    
+    .mobile-card-header strong {
+        color: var(--white);
+        font-size: 1rem;
+        display: block;
+    }
+    
+    .mobile-card-status {
+        margin-top: 0.5rem;
+    }
+    
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--zinc-300);
+        font-size: 0.875rem;
+    }
+    
+    .mobile-card-label {
+        color: var(--zinc-500);
+    }
+    
+    @media (max-width: 768px) {
+        .navigation-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .navigation-header .card-title {
+            font-size: 1rem;
+        }
+        
+        .navigation-buttons {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .table-container {
+            display: none;
+        }
+        
+        .mobile-cards {
+            display: block;
+        }
+    }
+</style>
 
 <!-- Modal: Uredi clanarinu -->
 <div class="modal-overlay" id="modalClanarina">

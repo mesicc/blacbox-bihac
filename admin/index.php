@@ -60,24 +60,86 @@ $statistika = dohvatiStatistikuZaAdmina();
         <h2 class="card-title">Brzi pregled - <?= imeMjeseca(date('n')) ?> <?= date('Y') ?></h2>
     </div>
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-        <div>
-            <p style="color: var(--zinc-500); margin-bottom: 0.5rem;">Ukupno grupa</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--white);"><?= $statistika['ukupno_grupa'] ?></p>
+    <div class="dashboard-grid">
+        <div class="dashboard-item">
+            <p class="dashboard-label">Ukupno grupa</p>
+            <p class="dashboard-value"><?= $statistika['ukupno_grupa'] ?></p>
         </div>
-        <div>
-            <p style="color: var(--zinc-500); margin-bottom: 0.5rem;">Prosli mjesec zarada</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--white);"><?= number_format($statistika['zarada_prosli_mjesec'], 2) ?> KM</p>
+        <div class="dashboard-item">
+            <p class="dashboard-label">Prosli mjesec zarada</p>
+            <p class="dashboard-value"><?= number_format($statistika['zarada_prosli_mjesec'], 2) ?> KM</p>
         </div>
-        <div>
-            <p style="color: var(--zinc-500); margin-bottom: 0.5rem;">Odrzanih treninga</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--white);"><?= $statistika['treninzi_ovaj_mjesec'] ?></p>
+        <div class="dashboard-item">
+            <p class="dashboard-label">Odrzanih treninga</p>
+            <p class="dashboard-value"><?= $statistika['treninzi_ovaj_mjesec'] ?></p>
         </div>
-        <div>
-            <p style="color: var(--zinc-500); margin-bottom: 0.5rem;">Ukupno admina</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--white);"><?= $statistika['ukupno_admina'] ?></p>
+        <div class="dashboard-item">
+            <p class="dashboard-label">Ukupno admina</p>
+            <p class="dashboard-value"><?= $statistika['ukupno_admina'] ?></p>
         </div>
     </div>
 </div>
+
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .dashboard-item {
+        padding: 0.5rem 0;
+    }
+    
+    .dashboard-label {
+        color: var(--zinc-500);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .dashboard-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--white);
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .dashboard-value {
+            font-size: 1.25rem;
+        }
+        
+        .dashboard-label {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        
+        .dashboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--zinc-800);
+        }
+        
+        .dashboard-label {
+            margin-bottom: 0;
+        }
+        
+        .dashboard-value {
+            font-size: 1.125rem;
+        }
+    }
+</style>
 
 <?php require_once 'includes/footer.php'; ?>
