@@ -245,7 +245,7 @@ $grupe = dohvatiSveGrupe();
                 
                 <div class="form-grid">
                     <div class="form-grupa">
-                        <label>Korisnicko ime *</label>
+                        <label>Korisničko ime *</label>
                         <input type="text" name="korisnicko_ime" required>
                     </div>
                     <div class="form-grupa">
@@ -353,9 +353,9 @@ $grupe = dohvatiSveGrupe();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-small" onclick="obrisiKorisnika()">Obrisi</button>
+                <button type="button" class="btn btn-danger btn-small" onclick="obrisiKorisnika()">Obriši</button>
                 <button type="button" class="btn btn-secondary btn-small" onclick="zatvoriModal('modalUrediKorisnika')">Odustani</button>
-                <button type="submit" class="btn btn-primary btn-small">Sacuvaj</button>
+                <button type="submit" class="btn btn-primary btn-small">Sačuvaj</button>
             </div>
         </form>
     </div>
