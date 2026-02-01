@@ -38,7 +38,7 @@ $statistika = dohvatiStatistikuZaAdmina();
         </div>
         <div class="stat-content">
             <div class="stat-value"><?= $statistika['placeno_ovaj_mjesec'] ?></div>
-            <div class="stat-label">Placenih clanarina</div>
+            <div class="stat-label">Plaćenih članarina</div>
         </div>
     </div>
     
@@ -50,7 +50,7 @@ $statistika = dohvatiStatistikuZaAdmina();
         </div>
         <div class="stat-content">
             <div class="stat-value"><?= $statistika['neplaceno_ovaj_mjesec'] ?></div>
-            <div class="stat-label">Neplacenih clanarina</div>
+            <div class="stat-label">Neplaćenih članarina</div>
         </div>
     </div>
 </div>
@@ -66,11 +66,11 @@ $statistika = dohvatiStatistikuZaAdmina();
             <p class="dashboard-value"><?= $statistika['ukupno_grupa'] ?></p>
         </div>
         <div class="dashboard-item">
-            <p class="dashboard-label">Prosli mjesec zarada</p>
+            <p class="dashboard-label">Prošli mjesec zarada</p>
             <p class="dashboard-value"><?= number_format($statistika['zarada_prosli_mjesec'], 2) ?> KM</p>
         </div>
         <div class="dashboard-item">
-            <p class="dashboard-label">Odrzanih treninga</p>
+            <p class="dashboard-label">Održanih treninga</p>
             <p class="dashboard-value"><?= $statistika['treninzi_ovaj_mjesec'] ?></p>
         </div>
         <div class="dashboard-item">
