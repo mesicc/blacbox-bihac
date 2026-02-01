@@ -1,0 +1,158 @@
+:root {
+    --prijava-bg: url('../img/prijava.jpg');
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}        
+
+.prijava-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    position: relative;
+    /* Background image setup */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--prijava-bg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.prijava-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+    background: rgba(24, 24, 27, 0.95); /* Polu-prozirna zinc-900 za bolji efekt */
+    border: 1px solid var(--zinc-800);
+    backdrop-filter: blur(10px); /* Moderni glassmorphism efekt */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+        
+.prijava-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+        
+.prijava-logo h1 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--red-500), var(--orange-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+        
+.prijava-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+        
+.form-grupa {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+        
+.form-grupa label {
+    font-size: 0.75rem;
+    color: var(--zinc-400);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+        
+.form-grupa input {
+    padding: 0.875rem 1rem;
+    background: var(--black);
+    border: 1px solid var(--zinc-800);
+    color: var(--white);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box; /* Ključno za responzivnost */
+    transition: all 0.3s ease;
+}
+        
+.form-grupa input:focus {
+    outline: none;
+    border-color: var(--red-600);
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+        
+.greska-poruka {
+    padding: 0.75rem 1rem;
+    background: rgba(220, 38, 38, 0.15);
+    border-left: 4px solid var(--red-600);
+    color: #ff8080;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+        
+.prijava-btn {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.prijava-btn:active {
+    transform: scale(0.98);
+}
+        
+.prijava-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--zinc-800);
+}
+        
+.prijava-footer a {
+    color: var(--zinc-400);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+}
+        
+.prijava-footer a:hover {
+    color: var(--red-500);
+}
+
+/* MEDIA QUERIES ZA EKSTREMNU RESPONZIVNOST */
+@media (max-width: 480px) {
+    .prijava-container {
+        padding: 1rem;
+    }
+            
+    .prijava-box {
+        padding: 1.75rem;
+        border: none;
+        background: rgba(24, 24, 27, 0.98);
+    }
+
+    .prijava-logo h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Za uređaje sa malom visinom ekrana (landscape na mobitelu) */
+@media (max-height: 600px) {
+    .prijava-container {
+        align-items: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    .prijava-box {
+        margin-bottom: 2rem;
+    }
+}
+            
