@@ -13,42 +13,42 @@ Sve je dizajnirano s fokusom na jednostavno korisničko iskustvo i responzivan d
 
 ## 📁 Struktura projekta
 
-
-
+```text
 blacbox-bihac/
 ├── sql/
-│ └── baza.sql # MySQL skripta za kreiranje baze
+│   └── baza.sql                    # MySQL skripta za kreiranje baze
 ├── includes/
-│ ├── konfiguracija.php # Konfiguracijski podaci
-│ ├── konekcija.php # PDO konekcija na bazu
-│ ├── funkcije.php # Pomoćne funkcije
-│ └── autentifikacija.php # Sistem prijave i odjave
+│   ├── konfiguracija.php           # Konfiguracijski podaci
+│   ├── konekcija.php               # PDO konekcija na bazu
+│   ├── funkcije.php                # Pomoćne funkcije
+│   └── autentifikacija.php         # Sistem prijave i odjave
 ├── admin/
-│ ├── includes/
-│ │ ├── header.php # Zajednički header (admin)
-│ │ └── footer.php # Zajednički footer (admin)
-│ ├── index.php # Admin dashboard
-│ ├── korisnici.php # Upravljanje korisnicima
-│ ├── grupe.php # Upravljanje grupama
-│ ├── termini.php # Upravljanje terminima i treninzima
-│ ├── clanarine.php # Evidencija članarina
-│ ├── izvjestaji.php # Mjesečni izvještaji
-│ └── statistika.php # Statistika i zarada
+│   ├── includes/
+│   │   ├── header.php              # Zajednički header (admin)
+│   │   └── footer.php              # Zajednički footer (admin)
+│   ├── index.php                   # Admin dashboard
+│   ├── korisnici.php               # Upravljanje korisnicima
+│   ├── grupe.php                   # Upravljanje grupama
+│   ├── termini.php                 # Upravljanje terminima i treninzima
+│   ├── clanarine.php               # Evidencija članarina
+│   ├── izvjestaji.php              # Mjesečni izvještaji
+│   └── statistika.php              # Statistika i zarada
 ├── klijent/
-│ ├── includes/
-│ │ ├── header.php # Zajednički header (klijent)
-│ │ └── footer.php # Zajednički footer (klijent)
-│ ├── index.php # Klijent dashboard
-│ ├── rezervacije.php # Rezervacija treninga
-│ ├── historija.php # Historija treninga
-│ └── profil.php # Profil i članarine
-├── prijava.php # Prijava korisnika
-├── odjava.php # Odjava korisnika
+│   ├── includes/
+│   │   ├── header.php              # Zajednički header (klijent)
+│   │   └── footer.php              # Zajednički footer (klijent)
+│   ├── index.php                   # Klijent dashboard
+│   ├── rezervacije.php             # Rezervacija treninga
+│   ├── historija.php               # Historija treninga
+│   └── profil.php                  # Profil i članarine
+├── prijava.php                     # Prijava korisnika
+├── odjava.php                      # Odjava korisnika
 ├── css/
-│ └── style.css # CSS stilovi
+│   └── style.css                   # CSS stilovi
 ├── js/
-│ └── script.js # JavaScript skripte
-└── index.html # Javna početna stranica
+│   └── script.js                   # JavaScript skripte
+└── index.html                      # Javna početna stranica
+```
 
 
 ---
