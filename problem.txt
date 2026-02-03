@@ -1,0 +1,19 @@
+Sada vidim problem. U header.php učitavaš oba CSS fajla:
+
+```html
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/klijent.css">
+```
+
+Evo glavnih sukoba koje sam uočio:
+
+1. **`.stats-grid`** - postoji u oba CSS-a sa različitim stilovima
+2. **`.stat-label`** - postoji u oba CSS-a
+3. **`.btn`** - definisan je u oba CSS-a
+4. **`.nav-link`** - definisan u oba CSS-a
+5. **`.card`**, **`.card-header`**, **`.card-title`** - nisu definirani u klijent.css ali koriste se
+6. **`.alert`** - postoji u oba CSS-a
+7. **Button "Odjavi se"** - koristi `.btn-outline` klasu koja ima konfliktne stilove
+
+
+Riješit ću ovo tako što ću prefiksati sve klase u `klijent.css` sa `klijent-` prefiksom da se izbjegnu sukobi, te ću dodati stilove koji nedostaju za profil.php formu. Kopirat ću fajlove i napraviti izmjene:
