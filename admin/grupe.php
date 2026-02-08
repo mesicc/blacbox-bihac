@@ -158,7 +158,7 @@ $grupe = dohvatiSveGrupe();
                 <div class="form-grupa">
                     <label class="checkbox-item">
                         <input type="checkbox" name="aktivna" id="uredi_aktivna" value="1">
-                        Aktivna grupa
+                        Aktivna grupa(Obriši)
                     </label>
                 </div>
             </div>
